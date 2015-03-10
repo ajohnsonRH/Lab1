@@ -1,0 +1,111 @@
+"""
+The   **** Blackjack **** PRACTICE for your Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development (Robotics).
+Winter term, 2012-2013.
+"""
+
+import m0  # @UnusedImport
+import m1  # @UnusedImport
+import m3  # @UnusedImport
+import m4  # @UnusedImport
+import time
+import random
+
+def ifBust(total):
+    if total > 21:
+        print("Player1 ", "busts with a ", total)
+        return True
+    else:
+        return False
+        
+def game():
+    """
+    Tests functions in this module.
+    Intended to be used internally by the primary author of this module.
+    """
+    print('Testing functions in module m2:\n')
+    
+# Done:  (READ THIS)
+
+    dealer = []
+    player1 = []
+    # Deal two cards to each player and the dealer
+    for k in range(2):
+        player1.append(m3.dealCard(m1.createDeck()))
+        dealer.append(m3.dealCard(m1.createDeck()))
+    # Total up hands, assess blackjacks
+    print("Dealer shows: ", dealer[1])
+    print("Player 1: ", player1)
+    totalD = m1.totalHand(dealer)
+    checkD = m1.ifBlackjack(totalD, "Dealer")
+    total1 = m1.totalHand(player1)
+    check1 = m1.ifBlackjack(total1, "Player 1")
+                
+    if checkD == True and check1 == True:
+        print("Push!")
+    elif check1 == True:
+        print("Player 1 Wins!")
+    elif checkD == True:
+        print("Dealer Wins!")
+    else:
+        
+        # Hit or Stand Decision
+        decision = m1.hitOrStand()
+        while total1 < 21 and (decision[0] == 'h' or decision[0] == 'H'):
+            player1.append(m3.dealCard(m1.createDeck()))
+            total1 = m1.totalHand(player1)
+            print(player1, total1)
+            if total1 >= 21:
+                break
+            decision = m1.hitOrStand()
+            print("Player1 stands")
+            total1 = m1.totalHand(player1)
+            checkBust = ifBust(total1)
+            print()
+    # Dealer Hit or Stand Decision
+        decisionD = m3.dealerDecision(totalD, dealer)
+        while decisionD == True:
+            dealer.append(m3.dealCard(m1.createDeck()))
+            totalD = m1.totalHand(dealer)
+            print("Dealer hits...")
+            time.sleep(1)
+            decisionD = m3.dealerDecision(totalD, dealer)
+        print("Dealer stands")
+
+        if m3.ifDealerBust(totalD) == True and checkBust == False:
+            print("Player 1 Wins!")
+        elif m3.ifDealerBust(totalD) == True and checkBust == True:
+            print("Player 1 Loses!")
+        elif m3.ifDealerBust(totalD) == False and checkBust == True:
+            print("Player 1 Loses!")
+        elif m3.ifDealerBust(totalD) == False and checkBust == False:
+            if total1 > totalD:
+                print("Player 1 Wins!")
+            elif total1 < totalD:
+                print("Dealer Wins!")
+            else:
+                print("Push!")
+            print()
+        print("Player 1: ", total1, player1)
+    print("Dealer: ", totalD, dealer)
+    print()
+#    playAgain = input("Play another hand? ")
+#    print("--------------------------------")
+#    if playAgain[0] == 'N' or playAgain[0] == 'n':
+# #        break
+#    startOver = input("Start another game? ")
+#    print("--------------------------------")
+#    if startOver[0] == 'N' or startOver[0] == 'n':
+#        print("Thank you for playing!")
+#        break
+
+                    
+
+
+#------------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+#------------------------------------------------------------------------
+if __name__ == '__game__':
+    game()

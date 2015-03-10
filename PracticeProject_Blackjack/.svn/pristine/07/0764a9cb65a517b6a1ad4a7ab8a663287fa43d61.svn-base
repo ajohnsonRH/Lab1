@@ -1,0 +1,80 @@
+"""
+The   **** Blackjack **** PRACTICE for your Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development (Robotics).
+Winter term, 2012-2013.
+"""
+
+import m0  # @UnusedImport
+import m1  # @UnusedImport
+import m3  # @UnusedImport
+import m4  # @UnusedImport
+
+def main():
+    """
+    Tests functions in this module.
+    Intended to be used internally by the primary author of this module.
+    """
+    print('Testing functions in module m2:\n')
+    
+# Done:  (READ THIS)
+
+    dealer = []
+    player1 = []
+    # Deal two cards to each player and the dealer
+    for k in range(2):
+        player1.append(dealCard(hearts, diamonds, clubs, spades))
+        dealer.append(dealCard(hearts, diamonds, clubs, spades))
+    # Total up hands, assess blackjacks
+    print("Dealer shows: ", dealer[1])
+    print("Player 1: ", player1)
+    totalD = totalHand(dealer)
+    
+    checkD = ifBlackjack(totalD, "Dealer")
+    total1 = totalHand(player1)
+    check1 = ifBlackjack(total1, "Player 1")
+    if checkD == True and check1 == True:
+        print("Push!")
+    elif check1 == True:
+        print("Player 1 Wins!")
+    elif checkD == True:
+        print("Dealer Wins!")
+    else:
+       for k in range(1, playerNum + 1):
+           # Hit or Stand Decision
+           decision = hitOrStand()
+           while total1 < 21 and (decision[0] == 'h' or decision[0] == 'H'):
+                player1.append(dealCard(hearts, diamonds, clubs, spades))
+                total1 = totalHand(player1)
+                print(player1, total1)
+                if total1 >= 21:
+                    break
+                decision = hitOrStand()
+                print("Player ", k, " stands")
+                total1 = totalHand(player1)
+                        checkBust = ifBust(total1, k)
+                        print()
+                    # Dealer Hit or Stand Decision
+                    decisionD = dealerDecision(totalD, dealer)
+                    while decisionD == True:
+                        dealer.append(dealCard(hearts, diamonds, clubs, spades))
+                        totalD = totalHand(dealer)
+                        print("Dealer hits...")
+                        time.sleep(1)
+                        decisionD = dealerDecision(totalD, dealer)
+                    print("Dealer stands")
+                    
+def ifBust(total, name):
+    if total > 21:
+        print("Player ", name, "busts with a ", total)
+        return True
+    else:
+        return False
+        
+
+#------------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+#------------------------------------------------------------------------
+if __name__ == '__main__':
+    main()

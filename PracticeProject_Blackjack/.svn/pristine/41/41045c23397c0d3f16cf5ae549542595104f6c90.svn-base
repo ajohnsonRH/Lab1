@@ -1,0 +1,149 @@
+"""
+The   **** Blackjack **** PRACTICE for your Python Capstone Project.
+
+CSSE 120 - Introduction to Software Development (Robotics).
+Winter term, 2012-2013.
+"""
+import m0  # @UnusedImport
+import m2  # @UnusedImport
+import m3  # @UnusedImport
+import m4  # @UnusedImport
+
+def main():
+    """
+    Tests functions in this module.
+    Intended to be used internally by the primary author of this module.
+    """
+    print('Testing functions in module m1:\n')
+    # Determine the card set
+    hearts = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    diamonds = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    clubs = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    spades = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    #Compare busts and decide winner
+    #Play rematch or end game
+    checkDealerBust = m2.ifDealerBust(m2.totalD)
+    if checkDealerBust == True and m2.checkBust == False:
+        print("Player 1 Wins!")
+    elif checkDealerBust == True and m2.checkBust == True:
+        print("Player 1 Loses!")
+    elif checkDealerBust == False and m2.checkBust == True:
+        print("Player 1 Loses!")
+    elif checkDealerBust == False and m2.checkBust == False:
+        if m2.total1 > m2.totalD:
+            print("Player 1 Wins!")
+        elif m2.total1 < m2.totalD:
+            print("Dealer Wins!")
+        else:
+            print("Push!")
+            print()
+            print("Player 1: ", m2.total1, m2.player1)
+            print("Dealer: ", m2.totalD, m2.dealer)
+            print()
+            playAgain = input("Play another hand? ")
+            print("--------------------------------")
+            if playAgain[0] == 'N' or playAgain[0] == 'n':
+                break
+            startOver = input("Start another game? ")
+            print("--------------------------------")
+            if startOver[0] == 'N' or startOver[0] == 'n':
+                print("Thank you for playing!")
+                break
+    
+# TODO:  (READ THIS)
+#   This is a THROW-AWAY, PRACTICE project.
+#   Its goal is to help you see how to:
+#     a. TOGETHER, AS A TEAM: break a project into parts.
+#     b. SEPARATELY, implement your part.
+#     c. TOGETHER, AS A TEAM: integrate your separately-implemented parts.
+#
+# So here is what you do:
+#
+#  a. AS A TEAM, divide the task -- implementing a Blackjack program --
+#       into 3 parts (or 4, if you are a 4-person team).
+#
+#     Note: If you have NOT already done this division into 3 parts,
+#     here is one way to do so:
+#         -- Person 1: Implements the dealer's actions.
+#         -- Person 2: Implements the player's actions.
+#         -- Person 3: Implements everything else, which might be:
+#                        -- Deal the cards.
+#                        -- Decide who wins.
+#    If you are a 4-person team, Person 4 could also implement the
+#    dealer's actions (so you will end up with 2 implementations
+#    from which you will later choose 1, no problem).
+#
+#    Decide which of you will do what part -- it doesn't matter,
+#    just decide.
+#
+# b. Implement YOUR part in the appropriate file in this project:
+#      -- m1.py for Person 1's code
+#      -- m2.py for Person 2's code
+#      -- m3.py for Person 3's code
+#      -- m4.py for Person 4's code (for 4-person teams)
+#
+#    Ignore m0.py.  Ignore m4.py unless you are a 4-person team.
+#
+#    When implementing:
+#      -- You must NOT communicate with teammates in any way.
+#           The whole point is to help you see how to implement
+#           your work SEPARATELY from teammates.
+#      -- MAKE ANY ASSUMPTIONS you need to make.
+#      -- Do your best to write correct code,
+#         but spend NO MORE THAN 60 MINUTES on your implementation.
+#      -- Attempt to test your code, as best you can.
+#
+#   This is a THROW-AWAY project.  It is PURPOSEFUL that the project
+#   not work yet (or ever).
+#
+# c. IN-CLASS, we will do a follow-up exercise to integrate your
+#    code with your teammates' code.  Do NOT attempt to do that
+#    yourself.  Wait for class to INTEGRATE your team's code.
+#
+
+
+
+#Total hands
+def totalHand(hand):
+    total = 0
+    aceCount = 0
+    for k in range(len(hand)):
+        if hand[k] == 'J':
+            total += 10
+        elif hand[k] == 'Q':
+            total += 10
+        elif hand[k] == 'K':
+            total += 10
+        elif hand[k] == 'A':
+            total += 11
+            aceCount += 1
+        else:
+            total += int(hand[k])
+        if hand[k] == 11:
+            hand[k] = 'A'
+    while total > 21 and aceCount > 0:
+        total = total - 10 
+        aceCount -= 1
+    return total
+
+#Hit or stand
+def hitOrStand():
+    decision = input("     Hit or Stand? ")
+    return decision
+
+#Check if hand is blackjack
+def ifBlackjack(total, name):
+    if total == 21:
+        print(name, ", Blackjack!") 
+        return True
+    else:
+        return False
+
+
+
+#------------------------------------------------------------------------
+# If this module is running at the top level (as opposed to being
+# imported by another module), then call the 'main' function.
+#------------------------------------------------------------------------
+if __name__ == '__main__':
+    main()
